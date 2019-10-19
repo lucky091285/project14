@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const usersRoutes = require('./routes/users');
 const auth = require('./middlewares/auth');
-const { createUser, login } = require('../controllers/users')
+const { createUser, login } = require('./controllers/users')
 const cardsRoutes = require('./routes/cards');
 const { PORT = 3000, BASE_PATH } = process.env;
 const app = express();

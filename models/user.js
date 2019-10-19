@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const validator  = require ('validator') ;
 require('mongoose-type-url');
 
+const emailValid = validator({
+    validator: 'matches',
+    arguments: /[A-Za-z]+@[A-Za-z]+\.[A-Za-z]{2,}/,
+});
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -23,7 +28,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        validate: validator
+        validate: emailValid
     },
     password: {
         type: String,

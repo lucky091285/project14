@@ -20,6 +20,7 @@ module.exports = (req, res, next) => {
             .send({ message: 'Необходима авторизация' });
     }
 
-    req.user = payload;
-    next();
+    req.user = payload._id; // записываем пейлоуд в объект запроса
+
+    next(); // пропускаем запрос дальше
 };

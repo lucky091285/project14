@@ -8,11 +8,7 @@ module.exports.createUser = (req, res) => {
 
   bcrypt.hash(req.body.password, 10)
       .then(hash => User.create({
-        name: req.body.name,
-        about: req.body.about,
-        avatar: req.body.avatar,
-        email: req.body.email,
-        password: hash
+        name, about, avatar, email, password: hash
   }))
       .then(user => res.send({ data: user }),)
       .catch(err => res.status(500).send({ message: `Произошла ошибка при создании пользователя -- ${err}` }));
@@ -23,8 +19,15 @@ module.exports.login = (req, res) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: '5d999a39eae33d0fc001dc0f' }, { expiresIn: '7d' }); // _id: '5d999a39eae33d0fc001dc0f', user._id , 'some-secret-key'
-      res.send({ token });
+      const token = jwt.sign({ _id: user._id }, { expiresIn: '7d' }); // _id: '5d999a39eae33d0fc001dc0f', user._id , 'some-secret-key'
+      res
+        .cookie('jwt', token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
+          sameSite: true,
+        })
+        .send({ message: 'авторизация прошла успешно' })
+        .end();
     })
     .catch((err) => {
       // ошибка аутентификации

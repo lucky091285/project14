@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const validator  = require ('validator') ;
+const validate = require('mongoose-validator');
 require('mongoose-type-url');
 
-const emailValid = validator({
+const emailValid = validate({
     validator: 'matches',
     arguments: /[A-Za-z]+@[A-Za-z]+\.[A-Za-z]{2,}/,
 });

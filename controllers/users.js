@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 module.exports.createUser = (req, res) => {
   console.log(req.body)
-  // const { name, about, avatar, email, password } = req.body;
+  const { name, about, avatar, email, password } = req.body;
 
   bcrypt.hash(req.body.password, 10)
       .then(hash => User.create({

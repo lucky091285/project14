@@ -6,7 +6,6 @@ const { createUser, login } = require('./controllers/users')
 const cardsRoutes = require('./routes/cards');
 const { PORT = 3000, BASE_PATH } = process.env;
 const app = express();
-const path = require('path');
 
 mongoose.connect('mongodb://localhost:27017/mestodb',  {
    useUnifiedTopology: true,
@@ -15,12 +14,11 @@ mongoose.connect('mongodb://localhost:27017/mestodb',  {
    useFindAndModify: false
 });
 
-app.post('/signin', login);
-app.post('/signup', createUser);
-
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.post('/signin', login);
+app.post('/signup', createUser);
 // app.use((req, res, next) => {
 //  req.user = {
 //    _id: '5d999a39eae33d0fc001dc0f'

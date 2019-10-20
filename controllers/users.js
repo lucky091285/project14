@@ -5,13 +5,16 @@ const User = require('../models/user');
 module.exports.createUser = (req, res) => {
   console.log(req.body)
   const { name, about, avatar, email, password } = req.body;
-
+if(req.body!=0) {
   bcrypt.hash(req.body.password, 10)
       .then(hash => User.create({
         name, about, avatar, email, password: hash
   }))
       .then(user => res.send({ data: user }),)
       .catch(err => res.status(500).send({ message: `Произошла ошибка при создании пользователя -- ${err}` }));
+} else {
+  return `Заполните пожалуйста все поля -- ${err}`
+}
 };
 
 module.exports.login = (req, res) => {

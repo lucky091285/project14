@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const validate = require('mongoose-validator');
 require('mongoose-type-url');
 

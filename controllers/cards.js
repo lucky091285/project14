@@ -9,7 +9,7 @@ module.exports.createCard = (req, res) => {
         .catch(err => res.status(500).send({ message: `Произошла ошибка добавлении карточки -- ${err}` }));
 };
 
-module.exports.getAddCards = (req, res) => {
+module.exports.getAllCards = (req, res) => {
   Card.find({})
         .populate('owner')
         .then(card => res.send({ data: card }))

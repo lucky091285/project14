@@ -1,4 +1,6 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const usersRoutes = require('./routes/users');
 const auth = require('./middlewares/auth');
@@ -16,6 +18,10 @@ mongoose.connect('mongodb://localhost:27017/mestodb',  {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(cookieParser());
+app.use(helmet());
+
 
 app.post('/signin', login);
 app.post('/signup', createUser);

@@ -6,8 +6,10 @@ const usersRoutes = require('./routes/users');
 const auth = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users')
 const cardsRoutes = require('./routes/cards');
-const { PORT = 3000, BASE_PATH } = process.env;
+const { PORT = 3000, BASE_PATH, SECRET_KEY = secret_key } = process.env;
 const app = express();
+
+require('dotenv').config()
 
 mongoose.connect('mongodb://localhost:27017/mestodb',  {
    useUnifiedTopology: true,

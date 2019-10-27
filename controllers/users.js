@@ -11,9 +11,9 @@ if(req.body.length!=0) {
         name, about, avatar, email, password: hash
   }))
       .then(user => res.send({ data: user }),)
-      .catch(err => res.status(500).send({ message: `Произошла ошибка при создании пользователя -- ${err}` }));
+      .catch(err => res.status(500).send({ message: `Произошла ошибка при создании пользователя` }));
 } else {
-  return `Заполните пожалуйста все поля -- ${err}`
+  return `Заполните пожалуйста все поля`
 }
 };
 
@@ -43,37 +43,37 @@ module.exports.login = (req, res) => {
 module.exports.getAllUsers = (req, res)=> {
   User.find({})
         .then(users => res.send({ data: users }))
-        .catch(err => res.status(500).send({ message: `Произошла ошибка при добавлении пользователей -- ${err}` }));
+        .catch(err => res.status(500).send({ message: `Произошла ошибка при добавлении пользователей` }));
 };
 
 module.exports.getSingleUser = (req, res) => {
   User.findById(req.params.id)
         .then(user => res.send({ data: user }))
-        .catch(err => res.status(500).send({ message: `Нет пользователя с таким id -- ${err}` }));
+        .catch(err => res.status(500).send({ message: `Нет пользователя с таким id` }));
 };
 
 module.exports.updateProfile = (req, res) => {
   const { name, about } = req.body;
 
   User.update({ name, about })
-    User.findByIdAndUpdate(req.params.id, { name, about },
+    User.findByIdAndUpdate(req.user._id, { name, about },
       {
         new: true,
         runValidators: true,
       })
         .then(user => res.send({ data: user }))
-        .catch(err => res.status(500).send({ message: `Профиль не обновился -- ${err}` }));
+        .catch(err => res.status(500).send({ message: `Профиль не обновился` }));
 };
 
 module.exports.updateAvatar = (req, res) => {
   const { avatar } = req.body;
 
   User.update({ avatar })
-    User.findByIdAndUpdate(req.params.id, { avatar },
+    User.findByIdAndUpdate(req.user._id, { avatar },
       {
         new: true,
         runValidators: true,
       })
         .then(user => res.send({ data: user }))
-        .catch(err => res.status(500).send({ message: `Аватар не обновился -- ${err}` }));
+        .catch(err => res.status(500).send({ message: `Аватар не обновился` }));
 };

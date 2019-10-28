@@ -11,7 +11,7 @@ if(req.body.length!=0) {
         name, about, avatar, email, password: hash
   }))
       .then(user => res.send({ data: user }),)
-      .catch(err => res.status(500).send({ message: `Произошла ошибка при создании пользователя` }));
+      .catch(err => res.status(500).send({ message: `Произошла ошибка при создании пользователя -- ${err}` }));
 } else {
   return `Заполните пожалуйста все поля`
 }
@@ -43,37 +43,35 @@ module.exports.login = (req, res) => {
 module.exports.getAllUsers = (req, res)=> {
   User.find({})
         .then(users => res.send({ data: users }))
-        .catch(err => res.status(500).send({ message: `Произошла ошибка при добавлении пользователей` }));
+        .catch(err => res.status(500).send({ message: `Произошла ошибка при добавлении пользователей -- ${err}` }));
 };
 
 module.exports.getSingleUser = (req, res) => {
   User.findById(req.params.id)
         .then(user => res.send({ data: user }))
-        .catch(err => res.status(500).send({ message: `Нет пользователя с таким id` }));
+        .catch(err => res.status(500).send({ message: `Нет пользователя с таким id -- ${err}` }));
 };
 
 module.exports.updateProfile = (req, res) => {
   const { name, about } = req.body;
 
-  User.update({ name, about })
     User.findByIdAndUpdate(req.user._id, { name, about },
       {
         new: true,
         runValidators: true,
       })
         .then(user => res.send({ data: user }))
-        .catch(err => res.status(500).send({ message: `Профиль не обновился` }));
+        .catch(err => res.status(500).send({ message: `Профиль не обновился -- ${err}` }));
 };
 
 module.exports.updateAvatar = (req, res) => {
   const { avatar } = req.body;
 
-  User.update({ avatar })
     User.findByIdAndUpdate(req.user._id, { avatar },
       {
         new: true,
         runValidators: true,
       })
         .then(user => res.send({ data: user }))
-        .catch(err => res.status(500).send({ message: `Аватар не обновился` }));
+        .catch(err => res.status(500).send({ message: `Аватар не обновился -- ${err}` }));
 };

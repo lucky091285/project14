@@ -13,7 +13,7 @@ if(req.body.length!=0) {
       .then(user => res.send({ data: user }),)
       .catch(err => res.status(500).send({ message: `Произошла ошибка при создании пользователя -- ${err}` }));
 } else {
-  return `Заполните пожалуйста все поля -- ${err}`
+  return `Заполните пожалуйста все поля`
 }
 };
 
@@ -22,7 +22,7 @@ module.exports.login = (req, res) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'secret-key', { expiresIn: '7d' }); // _id: '5d999a39eae33d0fc001dc0f', user._id , 'some-secret-key'
+      const token = jwt.sign({ _id: user._id }, process.env.SECRET_KEY, { expiresIn: '7d' }); // _id: '5d999a39eae33d0fc001dc0f', user._id , 'some-secret-key'
       res
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
@@ -55,8 +55,7 @@ module.exports.getSingleUser = (req, res) => {
 module.exports.updateProfile = (req, res) => {
   const { name, about } = req.body;
 
-  User.update({ name, about })
-    User.findByIdAndUpdate(req.params.id, { name, about },
+    User.findByIdAndUpdate(req.user._id, { name, about },
       {
         new: true,
         runValidators: true,
@@ -68,8 +67,7 @@ module.exports.updateProfile = (req, res) => {
 module.exports.updateAvatar = (req, res) => {
   const { avatar } = req.body;
 
-  User.update({ avatar })
-    User.findByIdAndUpdate(req.params.id, { avatar },
+    User.findByIdAndUpdate(req.user._id, { avatar },
       {
         new: true,
         runValidators: true,
